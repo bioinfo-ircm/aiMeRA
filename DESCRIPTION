@@ -1,0 +1,17 @@
+Package: aiMeRA
+Title: Modular Response Analysis for quantitatively describing connectivity in biological networks
+Version: 0.0.6.0
+Authors@R: 
+    person(given = "Gabriel",
+           family = "Jimenez Dominguez",
+           role = c("aut","cre"),
+           email = "gabriel.jimenez-dominguez@inserm.fr")
+Depends: R (>= 3.5.0)
+Description: Connectivity map of biological networks inferred from experimental data of network global responses to perturbations.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+  igraph, data.table
+NeedsCompilation: no
+RoxygenNote: 7.0.2
