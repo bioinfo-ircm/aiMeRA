@@ -9,15 +9,16 @@ netgraph(map,layout=igraph::layout_with_kk,pertu=FALSE,inter=NULL,
       outfile=NULL, ...)
 }
 \arguments{
-\item{map}{A list containing the connectivity map (link matrix) of a network, and local matrix responses to perturbations}
+\item{map}{A list containing the connectivity map (link matrix) of a network, and local matrix responses
+to perturbations, i.e., the output of ```mra```.}
 
-\item{layout}{Either a data.frame containing the x and y coordinates and the color of the vertex in the network,
-or a layout function from the igraph package. Default uses the "layout_with_kk" igraph layout.}
+\item{layout}{Either a data.frame containing the x and y coordinates and the color of the vertices in the network,
+or a layout function according to the igraph package. Default uses the "layout_with_kk" igraph layout.}
 
-\item{pertu}{A boolean specifying if perturbations should be plotted as vertex in the network.}
+\item{pertu}{A boolean specifying wether the perturbations should be plotted as vertices in the network.}
 
-\item{inter}{It takes the confidence interval calculated by the interval function and marks each connectivity coefficient
-with an asterisk if the coefficient is significant.}
+\item{inter}{Confidence intervals calculated by ```interval```; connectivity coefficient with a confidence
+interval that does not include 0 are deemed significant and marked by an asterisk.}
 
 \item{cutoff}{Minimum value for a connectivity link coefficient between two modules for being plotted.}
 
@@ -31,20 +32,23 @@ with an asterisk if the coefficient is significant.}
 \item{p.type}{Vertex type for perturbations. One of “none”, “circle”, “square”, “csquare”, “rectangle”
 “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.}
 
-\item{outfile}{Optional. A character string giving the name of the output file in xml format.}
+\item{outfile}{Optional. A character string giving the name of the output file in graphML format.}
 
 \item{...}{Arguments to be passed to igraph plot such as vertex and edges plotting parameters.}
 }
 \value{
-If layout is an igraph function it returns a data.frame containing the coordinates of the layout selected.
-If outfile is not NULL exports the network graph in xml file format.
+If layout is an igraph function then a data.frame containing the coordinates of the layout selected is returned.
+If outfile is not NULL, then the network is written in the graphML file format.
 }
 \description{
 Plots a graphic representation of a biological network connectivity map calculated by MRA.
 }
 \examples{
 data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
-sd.mean=data2sdmean(data)
+#We first average the technical replicates of each biological replicate
+#and then only keep the (averaged) biological replicates for the calculation
+tec.av=list(data2sdmean(data[1:2])$mean,data2sdmean(data[3:4])$mean,data2sdmean(data[5:6])$mean)
+sd.mean=data2sdmean(tec.av)
 rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
 matp=read.rules(rules)
 map=mra(sd.mean$mean,matp)

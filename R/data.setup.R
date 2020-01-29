@@ -1,17 +1,22 @@
 #'@title Data setup for Modular Response Analysis
-#'@description Checks for possible errors in data tables and in the perturbations matrix and returns the
-#'correct format for input to the mra function.
-#'@param obj A character string specifying the path to a folder to be checked that contains the
-#' experimental data tables and the perturbation rules file. It can be also several data tables
-#' stored into a list or a single data.frames.
-#'@param pert.tab Optional. The perturbations rules table to be checked for correct format.
-#'@param dec The decimal separator as in ```base::read.csv```. If not "." (default) then usually ","
-#'@return If more than one data table is checked it returns a list of data.frames in the correct
-#' format for the mra function. It also checks for correspondance with the perurbation rules file.
+#'@description Checks for possible errors in tables of experimental data and in the perturbation matrix.
+#'Returns data properly formated for the mra function.
+#'@param obj A character string specifying the path to a folder that contains the experimental data tables
+#'and the perturbation rules, or a list containing several data tables, or a single data table.
+#'@param pert.tab Optional. The perturbation rule table if not provided in ```obj```.
+#'@param dec The decimal separator as in ```base::read.csv``` (default is ".")
+#'@return If more than one data table are checked, then a list of matrices in the correct
+#'format for the mra function is returned. If a single table is checked, then a single matrix
+#'in the right format is returned. It also checks for correspondance with the perurbation rules table.
 #'@export
 #'@importFrom data.table fread
 #'@examples
+#'#Example using q-PCR data stored in the package files
 #'data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+#'#Examples using a gene network from Kholodenko et.al. PNAS 2002 figure a and b
+#'#Here data was obtained from the given R matrix
+#'data.A=data.setup(gene.network.A)
+#'data.B=data.setup(gene.network.B)
 
 data.setup=function(obj,pert.tab=NULL,dec=".")
 {
@@ -81,12 +86,13 @@ data.setup=function(obj,pert.tab=NULL,dec=".")
     aux=Reduce(paste,lapply(data, colnames))
     aux=strsplit(aux," ")
     if(!all(sapply(aux, function(x)all(x[1]==x))))
-      return(message("One or more column names is not equal to column names in other data tables"))
+      return(message("At least the name of one column is not the same between data tables"))
     aux=Reduce(paste,lapply(data, rownames))
     aux=strsplit(aux," ")
     if(!all(sapply(aux, function(x)all(x[1]==x))))
-      return(message("One or more row names is not equal to row names in other data tables"))
+      return(message("At least the name of one row is not the same between data tables"))
+    data=lapply(data,as.matrix)
     return(data)
   }
-  return(data[[1]])
+  return(as.matrix(data[[1]]))
 }

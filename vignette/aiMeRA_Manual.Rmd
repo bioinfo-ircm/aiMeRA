@@ -1,0 +1,332 @@
+---
+title: "aiMeRA User's Guide"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(aiMeRA)
+```
+
+
+
+## **Quick start**
+
+-------------   
+
+## **Examples of advanced use**
+
+-------------  
+
+## **Functions**
+
+- **data.setup()**   
+- **data2sdmean()**   
+- **interval()**   
+- **mra()**    
+- **netgraph()**    
+- **read.rules()**   
+
+
+
+
+---
+
+## **data.setup()**     
+Data setup for Modular Response Analysis
+
+### Description
+
+
+ Checks for possible errors in data tables and in the perturbations matrix and returns the
+ correct format for input to the mra function.
+
+
+### Usage
+
+```r
+data.setup(obj, pert.tab = NULL, dec = ".")
+```
+
+
+### Arguments
+
+Argument      |Description
+------------- |----------------
+```obj```     |     A character string specifying the path to a folder to be checked that contains the experimental data tables and the perturbation rules file. It can be also several data tables stored into a list or a single data.frames.
+```pert.tab```     |     Optional. The perturbations rules table to be checked for correct format.
+```dec```     |     The decimal separator as in ```base::read.csv```. If not "." (default) then usually ","
+
+### Value
+
+
+ If more than one data table is checked it returns a list of data.frames in the correct
+ format for the mra function. It also checks for correspondance with the perurbation rules file.
+
+
+### Examples
+
+```r 
+ data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+ ``` 
+
+
+
+---
+
+## **data2sdmean()**      
+Standard deviation and average calculation of a data set.
+
+### Description
+
+
+ This function computes the standard deviation and arithmetic mean values of a data set.
+
+
+### Usage
+
+```r
+data2sdmean(x)
+```
+
+
+### Arguments
+
+Argument      |Description
+------------- |----------------
+```x```     |     A list containing 2 or more data.frames of values.
+
+### Value
+
+
+ A list containing the standard deviation and mean values for each variable in x.
+
+
+### Examples
+
+```r 
+ data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+ data2sdmean(data)
+ ``` 
+
+
+---
+
+## **interval()**     
+Confidence interval calculation for MRA connectivity coefficients
+
+### Description
+
+
+ A function that takes in count variability on experimental data replicas and uses the bootstrap algorithm to calculate
+ a confidence interval for each MRA connectivity coefficient in a biological network.
+
+
+### Usage
+
+```r
+interval(tab,sd.tab,matp,n=10000,nrep=2)
+```
+
+
+### Arguments
+
+Argument      |Description
+------------- |----------------
+```tab```     |     A data frame containing the experimental data in a specific format.
+```sd.tab```     |     A data frame containing the standard deviation values for each biological module.
+```matp```     |     A perturbation matrix with rows corresponding to biological modules and columns to perturbations.
+```n```     |     Number of iterations for the bootstrap algorithm.
+```nrep```     |     Number of experimental replicas. Default is 2.
+
+### Value
+
+
+ A list containing the upper and lower values of the confidence interval for each connectivity coefficient.
+
+
+### Examples
+
+```r 
+ data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+ sd.mean=data2sdmean(data)
+ rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
+ matp=read.rules(rules)
+ interval(sd.mean$mean,sd.mean$sd,matp,nrep=6)
+ ``` 
+
+
+
+---
+
+## **mra()**     
+Modular Reponse Analysis function
+
+### Description
+
+
+ Calculation of connectivity coefficients between modules in biological networks
+ using modular response analysis.
+
+
+### Usage
+
+```r
+mra(tab,matp,check=TRUE)
+```
+
+
+### Arguments
+
+Argument      |Description
+------------- |----------------
+```tab```     |     A data.frame containing experimental data in a specific format (see details).
+```matp```     |     The perturbation matrix. Names of modules (rows) and perturbations (columns) must correspond to names of rows and columns in tab.
+```check```     |     Logical. Should the dataset and perutbation matrix be checked for input errors?
+
+### Details
+
+
+ It assumes that one perturbation must affect only one biological module of the network. This is specified as binary values in
+ the perturbation matrix. It also assumes that row names in data tables are the names of biological modules and column names are the
+ the names of perturbations.
+
+
+### Value
+
+
+ A list containing the connectivity map, the local responses matrix, the network responses matrix to perturbations
+ and the basal line for all modules.
+
+
+### Examples
+
+```r 
+ #It creates the connectivity map between 2 transcriptional nuclear coregulators
+ #(RIP140 and LCoR) and estrogen receptor alpha transcriptional activity reported by
+ #a luciferase gene. q-PCR data is stored in the package files used below in the function data.setup
+ #The model is obtained using the E2 stimulated condition.
+ 
+ data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+ sd.mean=data2sdmean(data)
+ rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
+ matp=read.rules(rules)
+ mra(sd.mean$mean,matp,check=TRUE)
+ ``` 
+
+
+
+---
+
+## **netgraph()**    
+Plotting of networks connectivity map
+
+### Description
+
+
+ Plots a graphic representation of a biological network connectivity map calculated by MRA.
+
+
+### Usage
+
+```r
+netgraph(map,layout=igraph::layout_with_kk,pertu=FALSE,inter=NULL,
+      cutoff=NULL,main=NULL,digits=2,v.type="circle",p.type="rectangle",
+      outfile=NULL, ...)
+```
+
+
+### Arguments
+
+Argument      |Description
+------------- |----------------
+```map```     |     A list containing the connectivity map (link matrix) of a network, and local matrix responses to perturbations
+```layout```     |     Either a data.frame containing the x and y coordinates and the color of the vertex in the network, or a layout function from the igraph package. Default uses the "layout_with_kk" igraph layout.
+```pertu```     |     A boolean specifying if perturbations should be plotted as vertex in the network.
+```inter```     |     It takes the confidence interval calculated by the interval function and marks each connectivity coefficient with an asterisk if the coefficient is significant.
+```cutoff```     |     Minimum value for a connectivity link coefficient between two modules for being plotted.
+```main```     |     A character string giving the title of the plot.
+```digits```     |     Number of digits to be plotted for each connectivity coefficient.
+```v.type```     |     Vertex type for biological modules. One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.
+```p.type```     |     Vertex type for perturbations. One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.
+```outfile```     |     Optional. A character string giving the name of the output file in xml format.
+```...```     |     Arguments to be passed to igraph plot such as vertex and edges plotting parameters.
+
+### Value
+
+
+ If layout is an igraph function it returns a data.frame containing the coordinates of the layout selected.
+ If outfile is not NULL exports the network graph in xml file format.
+
+
+### Examples
+
+```r 
+ data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+ sd.mean=data2sdmean(data)
+ rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
+ matp=read.rules(rules)
+ map=mra(sd.mean$mean,matp,check=FALSE)
+ inter=interval(sd.mean$mean,sd.mean$sd,matp,nrep=6)
+ netgraph(map,pertu=TRUE,inter=inter)
+ ``` 
+
+
+
+---
+
+## **read.rules()**   
+Creates a perturbation matrix from a set of perturbation rules.
+
+### Description
+
+
+ A function that takes a set of perturbation rules as input and creates a perturbation matrix to be used for
+ modular response analysis.
+
+
+### Usage
+
+```r
+read.rules(obj)
+```
+
+
+### Arguments
+
+Argument      |Description
+------------- |----------------
+```obj```     |     Either the path to a perturbation rules file without header or a vector of strings specifying the perturbation rules (see details).
+
+### Details
+
+
+ Perturbations rules are a set of strings specifying the action of perturbations upon modules in a network. In both cases modules
+ and perturbations must have the same names as the names of rows and columns in experimental data tables (names are case sensitive).
+ 
+ The rules syntax must be  ```Perturbation->Module``` for a single perturbation,```Perturbation->0``` to specify the basal line and
+ ```0->Module``` to specify modules that were not perturbated but for which connectivity coming from other modules can be retrieved.
+ At least two rules and a basal line must be written.
+
+
+### Examples
+
+```r 
+ rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
+ ``` 
+
+
+
+
+
+

@@ -7,22 +7,27 @@
 data.setup(obj, pert.tab = NULL, dec = ".")
 }
 \arguments{
-\item{obj}{A character string specifying the path to a folder to be checked that contains the
-experimental data tables and the perturbation rules file. It can be also several data tables
-stored into a list or a single data.frames.}
+\item{obj}{A character string specifying the path to a folder that contains the experimental data tables
+and the perturbation rules, or a list containing several data tables, or a single data table.}
 
-\item{pert.tab}{Optional. The perturbations rules table to be checked for correct format.}
+\item{pert.tab}{Optional. The perturbation rule table if not provided in ```obj```.}
 
-\item{dec}{The decimal separator as in ```base::read.csv```. If not "." (default) then usually ","}
+\item{dec}{The decimal separator as in ```base::read.csv``` (default is ".")}
 }
 \value{
-If more than one data table is checked it returns a list of data.frames in the correct
-format for the mra function. It also checks for correspondance with the perurbation rules file.
+If more than one data table are checked, then a list of matrices in the correct
+format for the mra function is returned. If a single table is checked, then a single matrix
+in the right format is returned. It also checks for correspondance with the perurbation rules table.
 }
 \description{
-Checks for possible errors in data tables and in the perturbations matrix and returns the
-correct format for input to the mra function.
+Checks for possible errors in tables of experimental data and in the perturbation matrix.
+Returns data properly formated for the mra function.
 }
 \examples{
+#Example using q-PCR data stored in the package files
 data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+#Examples using a gene network from Kholodenko et.al. PNAS 2002 figure a and b
+#Here data was obtained from the given R matrix
+data.A=data.setup(gene.network.A)
+data.B=data.setup(gene.network.B)
 }

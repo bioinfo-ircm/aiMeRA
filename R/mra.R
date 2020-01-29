@@ -1,17 +1,15 @@
 #'@title Modular Reponse Analysis function
 #'
-#'@description Calculation of connectivity coefficients between modules in biological networks
+#'@description Calculation of connectivity coefficients between MRA modules
 #' using modular response analysis.
 #'@usage mra(tab,matp,check=TRUE)
-#'@param tab A data.frame containing experimental data in a specific format (see details).
-#'@param matp The perturbation matrix. Names of modules (rows) and perturbations (columns) must correspond to names of rows
-#'            and columns in tab.
-#'@param check Logical. Should the dataset and perutbation matrix be checked for input errors?
+#'@param tab Data in the format returned by ```data.setup``` or a single data table in the format required by ```data.setup```.
+#'@param matp A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.
+#'@param check Logical. If ```TRUE``` then data and perturbation rule are checked for consistency (by calling ```data.setup```).
 #'@return A list containing the connectivity map, the local responses matrix, the network responses matrix to perturbations
 #'         and the basal line for all modules.
-#'@details It assumes that one perturbation must affect only one biological module of the network. This is specified as binary values in
-#'the perturbation matrix. It also assumes that row names in data tables are the names of biological modules and column names are the
-#'the names of perturbations.
+#'@details A list containing the connectivity map, the local responses matrix, the network responses matrix to perturbations
+#'and the basal line for all the modules.
 #'@export
 #'@examples
 #'#It creates the connectivity map between 2 transcriptional nuclear coregulators

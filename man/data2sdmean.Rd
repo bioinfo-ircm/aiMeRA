@@ -7,13 +7,15 @@
 data2sdmean(x)
 }
 \arguments{
-\item{x}{A list containing 2 or more data.frames of values.}
+\item{x}{A list containing 2 or more tables.}
 }
 \value{
-A list containing the standard deviation and mean values for each variable in x.
+A list containing two matrices, the standard deviations and mean values for each variable in x.
 }
 \description{
-This function computes the standard deviation and arithmetic mean values of a data set.
+This function computes the standard deviation and average values of a data set. Namely, if n replicates were generated,
+then n data tables should be provided to ```data.setup``` and ```data2sdmean``` computes the average and standard deviation
+of each cell over the n replicates.
 }
 \examples{
 data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))

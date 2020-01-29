@@ -7,27 +7,32 @@
 interval(tab,sd.tab,matp,n=10000,nrep=2)
 }
 \arguments{
-\item{tab}{A data frame containing the experimental data in a specific format.}
+\item{tab}{A data table containing the experimental data in the format output by ```data.setup```.}
 
-\item{sd.tab}{A data frame containing the standard deviation values for each biological module.}
+\item{sd.tab}{A data table containing the standard deviation values.}
 
-\item{matp}{A perturbation matrix with rows corresponding to biological modules and columns to perturbations.}
+\item{matp}{A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.}
 
-\item{n}{Number of iterations for the bootstrap algorithm.}
+\item{n}{Number of samples for the bootstrap algorithm.}
 
 \item{nrep}{Number of experimental replicas. Default is 2.}
 }
 \value{
-A list containing the upper and lower values of the confidence interval for each connectivity coefficient.
+A list containing the upper and lower values of the confidence interval of each connectivity coefficient.
 }
 \description{
-A function that takes in count variability on experimental data replicas and uses the bootstrap algorithm to calculate
-            a confidence interval for each MRA connectivity coefficient in a biological network.
+A function that estimates confidence intervals of MRA connectivity coefficients
+based on replicates. It uses a bootstrap algorithm.
 }
 \examples{
 data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
-sd.mean=data2sdmean(data)
+#We first average the technical replicates of each biological replicate
+#and then only keep the (averaged) biological replicates for the calculation
+tec.av=list(data2sdmean(data[1:2])$mean,data2sdmean(data[3:4])$mean,data2sdmean(data[5:6])$mean)
+sd.mean=data2sdmean(tec.av)
 rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
 matp=read.rules(rules)
-interval(sd.mean$mean,sd.mean$sd,matp,nrep=6)
+#The variance of each variable was estimated employing an estimator optimized for a
+#small sample size from Statistical Process Control theory (Wheeler and Chambers, 1992; Harter, 1960).
+interval(sd.mean$mean,sd.ex,matp,nrep=6)
 }
