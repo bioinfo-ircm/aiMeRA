@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>aiMeRA User’s Guide</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">aiMeRA User’s Guide</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(aiMeRA)</span></code></pre></div>
+<div id="quick-start" class="section level1">
+<h1><strong>Quick start</strong></h1>
+<p>This is an illustration of how functions of the aiMeRA package can be used to uncover coupling in biological networks. A data set containing qPCR data is available from the package to provide an example. In addition, the data sets used in MRA original paper (Figures 7a and 7b, Kholodenko,et.al, PNAS, 2002) are also included.</p>
+<p>We show how to compute the coupling between the Estrogen Receptor alpha (ER), the Retinoic Acid Receptor (RAR), and two corepressors of their transcriptional activity that are RIP140 (NRIP1) and LCoR. Data for three transfections (biological replicate) and two technical replicates per transfection are stored in six data tables called:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>estr1_A     estr1_B    estr2_A    estrt2_B    estr3_A     estr3_B</span></code></pre></div>
+<p>The objective in this example is to retrieve the MRA connectivity coefficients (connectivity map) between the four modules mentioned above when the system is in a double-stimulation condition with estradiol (E2) and retinoic acid (RA).</p>
+<div id="reading-the-data" class="section level3">
+<h3><strong>Reading the data</strong></h3>
+<p>A specific format for the input data tables is required: the first column of each table must contain the names of the biological modules, and the columns names should be the names of the perturbations. In order to check whether the format of the data set is correct, we use the function <code>data.setup()</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>data=<span class="kw">data.setup</span>(<span class="kw">list</span>(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))</span></code></pre></div>
+<p>This function also accepts a specific path to a folder containing the data table files and the perturbations rules file in a .cvs format</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#Example of reading the data from a specific folder</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>data=<span class="kw">data.setup</span>(<span class="op">/</span>User<span class="op">/</span>some_path_to_folder_files<span class="op">/</span>)</span></code></pre></div>
+<p>If more than one data table are checked, then a list of matrices in the correct format for the mra function is returned. If a single table is checked, then a single matrix in the right format is returned. It also checks for correspondance with the perturbation rules table.</p>
+</div>
+<div id="perturbation-rules-table" class="section level3">
+<h3><strong>Perturbation rules table</strong></h3>
+<p><strong>Perturbation rules</strong> are a set of expressions to specify how perturbations are affecting biological modules. Since the aiMeRA package is based on classical Modular Response Analysis (MRA) it assumes that one perturbation must affect only one module of the network. This is specified as binary values in the <strong>perturbation matrix</strong>.</p>
+<p>The perturbation matrix can be created from a set of perturbations rules using the function <code>read.rules()</code></p>
+<p>The rules syntax is <code>Perturbation-&gt;Module</code> for a single perturbation,<code>Perturbation-&gt;0</code> to specify the basal line and optionally <code>0-&gt;Module</code> to specify modules that were not perturbated, but for which connectivity issued from other modules exists (unidirectional MRA).</p>
+<p>We define the elements of our network as follows:</p>
+<p><strong>Biological modules:</strong></p>
+<ul>
+<li><strong>LCoR</strong> LCoR gene expression</li>
+<li><strong>RIP140</strong> NRIP1 gene expression</li>
+<li><strong>Luciferase</strong> ER transcriptional activity reporter</li>
+<li><strong>Hoxa5</strong> RAR transcriptional activity reporter</li>
+</ul>
+<p><strong>Perturbations:</strong></p>
+<ul>
+<li><strong>E2+RA+siLCoR:</strong> Downregulation of LCoR by a siRNA in the double-stimulation condition.</li>
+<li><strong>E2+RA+siRIP140:</strong> Downregulation of RIP140 by a siRNA in the double-stimulation condition.</li>
+<li><strong>E2:</strong> Estradiol stimulation</li>
+<li><strong>RA:</strong> Retinoic Acid stimulation</li>
+</ul>
+<p><strong>Basal line:</strong></p>
+<ul>
+<li><strong>E2+RA</strong> The double stimulation condition</li>
+</ul>
+<p><strong>Perturbation rules:</strong></p>
+<ul>
+<li><strong>E2+RA+siLCoR-&gt;LCoR</strong></li>
+<li><strong>E2+RA+siRIP140-&gt;siRIP140</strong></li>
+<li><strong>E2-&gt;Hoxa5</strong> (Switch from E2+RA to E2)</li>
+<li><strong>RA-&gt;Luciferase</strong> (Switch from E2+RA to RA)</li>
+<li><strong>E2+RA-&gt;0</strong> (The basal line)</li>
+</ul>
+<p>NOTE: Modules and perturbations must have the same names as the row and column names in experimental data tables (names are case sensitive).</p>
+<p>Rules can be defined as a character vector and then transformed into a perturbation matrix as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>rules=<span class="kw">c</span>(<span class="st">&quot;E2+RA+siLCoR-&gt;LCoR&quot;</span>,<span class="st">&quot;E2+RA+siRIP140-&gt;siRIP140&quot;</span>,<span class="st">&quot;E2-&gt;Hoxa5&quot;</span>,<span class="st">&quot;RA-&gt;Luciferase&quot;</span>,<span class="st">&quot;E2+RA-&gt;0&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>matp=<span class="kw">read.rules</span>(rules)</span></code></pre></div>
+<p>or they can be read from a .csv file.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">#Example of reading perturbation rules from a specific folder</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>rules=<span class="kw">read.rules</span>(<span class="op">/</span>User<span class="op">/</span>some_path_to_folder<span class="op">/</span>rules_file.csv)</span></code></pre></div>
+<p>The output of the function will be the peturbation matrix:</p>
+<pre><code>#&gt;            E2+RA+siLCoR E2+RA+siRIP140 E2 RA E2+RA
+#&gt; LCoR                  1              0  0  0     0
+#&gt; siRIP140              0              1  0  0     0
+#&gt; Hoxa5                 0              0  1  0     0
+#&gt; Luciferase            0              0  0  1     0</code></pre>
+</div>
+<div id="calculation-of-the-connectivity-map" class="section level3">
+<h3><strong>Calculation of the connectivity map</strong></h3>
+<p>Once the data tables are in the right format and the perturbation matrix has been created the next step is to calculate the connectivity map of the network. For this example we chose to average the six data tables using the <code>data2sdmean()</code> function.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>data=<span class="kw">data2sdmean</span>(data)</span></code></pre></div>
+<p>This function creates a list containing the standard deviation and average values of a data set. Namely, if n replicates were generated, then n data tables should be provided to <code>data.setup</code> and <code>data2sdmean</code> computes the average and standard deviation of each cell over the n replicates.</p>
+<p>Finally we compute the connectivity map with the <code>mra()</code> function.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>res=<span class="kw">mra</span>(data<span class="op">$</span>mean,matp)</span></code></pre></div>
+</div>
+<div id="plot-of-the-connectivity-map" class="section level3">
+<h3><strong>Plot of the connectivity map</strong></h3>
+<p>The <code>netgraph()</code> function plots a graphical version of the network connectivity map that is returned by the <code>mra()</code> function.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">netgraph</span>(map)</span></code></pre></div>
+<p>Stimation of confidence intervals for each connectivity coefficient is obtained using the <code>interval()</code> function.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>inter=<span class="kw">interval</span>(data<span class="op">$</span>mean,data<span class="op">$</span>sd,matp,<span class="dt">nrep=</span><span class="dv">6</span>)</span></code></pre></div>
+<p>We use the output of this function to add asteriks on each coefficient for which zero is not included inside the confidence interval.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">netgraph</span>(map,<span class="dt">inter=</span>inter)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /></p>
+<p>The netgraph function have many arguments parameters that can be changed by the user to fit his needs (see function <strong>netgraph()</strong> details.)</p>
+</div>
+</div>
+<div id="functions" class="section level1">
+<h1><strong>Functions</strong></h1>
+<ul>
+<li><strong>data.setup()</strong><br />
+</li>
+<li><strong>data2sdmean()</strong><br />
+</li>
+<li><strong>interval()</strong><br />
+</li>
+<li><strong>mra()</strong><br />
+</li>
+<li><strong>netgraph()</strong><br />
+</li>
+<li><strong>read.rules()</strong></li>
+</ul>
+<hr />
+<div id="data.setup" class="section level2">
+<h2><strong>data.setup()</strong></h2>
+<p>Data setup for Modular Response Analysis</p>
+<div id="description" class="section level3">
+<h3>Description</h3>
+<p>Checks for possible errors in tables of experimental data and in the perturbation matrix. Returns data properly formated for the mra function.</p>
+</div>
+<div id="usage" class="section level3">
+<h3>Usage</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">data.setup</span>(obj, <span class="dt">pert.tab =</span> <span class="ot">NULL</span>, <span class="dt">dec =</span> <span class="st">&quot;.&quot;</span>)</span></code></pre></div>
+</div>
+<div id="arguments" class="section level3">
+<h3>Arguments</h3>
+<table>
+<colgroup>
+<col width="44%"></col>
+<col width="55%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>obj</code></td>
+<td>A character string specifying the path to a folder that contains the experimental data tables and the perturbation rules, or a list containing several data tables, or a single data table.</td>
+</tr>
+<tr class="even">
+<td><code>pert.tab</code></td>
+<td>Optional. The perturbation rule table if not provided in <code>obj</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>dec</code></td>
+<td>The decimal separator as in <code>base::read.csv</code> (default is “.”)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="value" class="section level3">
+<h3>Value</h3>
+<p>If more than one data table are checked, then a list of matrices in the correct format for the mra function is returned. If a single table is checked, then a single matrix in the right format is returned. It also checks for correspondance with the perturbation rules table.</p>
+</div>
+<div id="examples" class="section level3">
+<h3>Examples</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a> <span class="co">#Example using q-PCR data stored in the package files</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a> data=<span class="kw">data.setup</span>(<span class="kw">list</span>(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))</span>
+<span id="cb14-3"><a href="#cb14-3"></a> <span class="co">#Examples using a gene network from Kholodenko et.al. PNAS 2002 figure a and b</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a> <span class="co">#Data was obtained from the given R matrix</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a> data.A=<span class="kw">data.setup</span>(gene.network.A)</span>
+<span id="cb14-6"><a href="#cb14-6"></a> data.B=<span class="kw">data.setup</span>(gene.network.B)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="data2sdmean" class="section level2">
+<h2><strong>data2sdmean()</strong></h2>
+<p>Standard deviation and average calculation of a data set.</p>
+<div id="description-1" class="section level3">
+<h3>Description</h3>
+<p>This function computes the standard deviation and average values of a data set. Namely, if n replicates were generated, then n data tables should be provided to <code>data.setup</code> and <code>data2sdmean</code> computes the average and standard deviation of each cell over the n replicates.</p>
+</div>
+<div id="usage-1" class="section level3">
+<h3>Usage</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">data2sdmean</span>(x)</span></code></pre></div>
+</div>
+<div id="arguments-1" class="section level3">
+<h3>Arguments</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>x</code></td>
+<td>A list containing 2 or more data tables.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="value-1" class="section level3">
+<h3>Value</h3>
+<p>A list containing two matrices, the standard deviations and mean values for each variable in x.</p>
+</div>
+<div id="examples-1" class="section level3">
+<h3>Examples</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a> data=<span class="kw">data.setup</span>(<span class="kw">list</span>(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))</span>
+<span id="cb16-2"><a href="#cb16-2"></a> <span class="kw">data2sdmean</span>(data)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="interval" class="section level2">
+<h2><strong>interval()</strong></h2>
+<p>Confidence interval calculation for MRA connectivity coefficients</p>
+<div id="description-2" class="section level3">
+<h3>Description</h3>
+<p>A function that estimates confidence intervals of MRA connectivity coefficients based on replicates. It uses a bootstrap algorithm.</p>
+</div>
+<div id="usage-2" class="section level3">
+<h3>Usage</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">interval</span>(tab,sd.tab,matp,<span class="dt">n=</span><span class="dv">10000</span>,<span class="dt">nrep=</span><span class="dv">2</span>)</span></code></pre></div>
+</div>
+<div id="arguments-2" class="section level3">
+<h3>Arguments</h3>
+<table>
+<colgroup>
+<col width="44%"></col>
+<col width="55%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tab</code></td>
+<td>A data table containing the experimental data in the format output by <code>data.setup</code>.</td>
+</tr>
+<tr class="even">
+<td><code>sd.tab</code></td>
+<td>A data table containing the standard deviation values.</td>
+</tr>
+<tr class="odd">
+<td><code>matp</code></td>
+<td>A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.</td>
+</tr>
+<tr class="even">
+<td><code>n</code></td>
+<td>Number of samples for the bootstrap algorithm.</td>
+</tr>
+<tr class="odd">
+<td><code>nrep</code></td>
+<td>Number of replicates. Default is 2.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="value-2" class="section level3">
+<h3>Value</h3>
+<p>A list containing the upper and lower values of the confidence interval of each connectivity coefficient.</p>
+</div>
+<div id="examples-2" class="section level3">
+<h3>Examples</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a> data=<span class="kw">data.setup</span>(<span class="kw">list</span>(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))</span>
+<span id="cb18-2"><a href="#cb18-2"></a> </span>
+<span id="cb18-3"><a href="#cb18-3"></a> <span class="co"># we first average the technical replicates of each biological replicate</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a> <span class="co"># and then only keep the (averaged) biological replicates for the calculation</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a> CODE</span>
+<span id="cb18-6"><a href="#cb18-6"></a> sd.mean=<span class="kw">data2sdmean</span>(data)</span>
+<span id="cb18-7"><a href="#cb18-7"></a> rules=<span class="kw">c</span>(<span class="st">&quot;Et-&gt;Luciferase&quot;</span>,<span class="st">&quot;E2+siRIP140-&gt;RIP140&quot;</span>,<span class="st">&quot;E2+siLCoR-&gt;LCoR&quot;</span>,<span class="st">&quot;E2-&gt;0&quot;</span>)</span>
+<span id="cb18-8"><a href="#cb18-8"></a> matp=<span class="kw">read.rules</span>(rules)</span>
+<span id="cb18-9"><a href="#cb18-9"></a> <span class="kw">interval</span>(sd.mean<span class="op">$</span>mean,sd.mean<span class="op">$</span>sd,matp,<span class="dt">nrep=</span><span class="dv">6</span>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="mra" class="section level2">
+<h2><strong>mra()</strong></h2>
+<p>Modular Reponse Analysis function</p>
+<div id="description-3" class="section level3">
+<h3>Description</h3>
+<p>Calculation of connectivity coefficients between MRA modules.</p>
+</div>
+<div id="usage-3" class="section level3">
+<h3>Usage</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">mra</span>(tab,matp,<span class="dt">check=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="arguments-3" class="section level3">
+<h3>Arguments</h3>
+<table>
+<colgroup>
+<col width="44%"></col>
+<col width="55%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tab</code></td>
+<td>Data in the format returned by <code>data.setup</code> or a single data table in the format required by <code>data.setup</code>.</td>
+</tr>
+<tr class="even">
+<td><code>matp</code></td>
+<td>A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.</td>
+</tr>
+<tr class="odd">
+<td><code>check</code></td>
+<td>Logical. If <code>TRUE</code> then data and perturbation rule are checked for consistency (by calling <code>data.setup</code>).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="value-3" class="section level3">
+<h3>Value</h3>
+<p>A list containing the connectivity map, the local responses matrix, the network responses matrix to perturbations and the basal line for all the modules.</p>
+</div>
+<div id="examples-3" class="section level3">
+<h3>Examples</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a> <span class="co">#It creates the connectivity map between 2 transcriptional nuclear coregulators</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a> <span class="co">#(RIP140 and LCoR) and estrogen receptor alpha transcriptional activity reported by</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a> <span class="co">#a luciferase gene. q-PCR data is stored in the package files used below in the function data.setup</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a> <span class="co">#The model is obtained using the E2 stimulated condition.</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a> </span>
+<span id="cb20-6"><a href="#cb20-6"></a> data=<span class="kw">data.setup</span>(<span class="kw">list</span>(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))</span>
+<span id="cb20-7"><a href="#cb20-7"></a> sd.mean=<span class="kw">data2sdmean</span>(data)</span>
+<span id="cb20-8"><a href="#cb20-8"></a> rules=<span class="kw">c</span>(<span class="st">&quot;Et-&gt;Luciferase&quot;</span>,<span class="st">&quot;E2+siRIP140-&gt;RIP140&quot;</span>,<span class="st">&quot;E2+siLCoR-&gt;LCoR&quot;</span>,<span class="st">&quot;E2-&gt;0&quot;</span>)</span>
+<span id="cb20-9"><a href="#cb20-9"></a> matp=<span class="kw">read.rules</span>(rules)</span>
+<span id="cb20-10"><a href="#cb20-10"></a> <span class="kw">mra</span>(sd.mean<span class="op">$</span>mean,matp,<span class="dt">check=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="netgraph" class="section level2">
+<h2><strong>netgraph()</strong></h2>
+<p>Plot of network connectivity map</p>
+<div id="description-4" class="section level3">
+<h3>Description</h3>
+<p>Plots a graphic representation of a biological network connectivity map calculated by MRA.</p>
+</div>
+<div id="usage-4" class="section level3">
+<h3>Usage</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">netgraph</span>(map,<span class="dt">layout=</span>igraph<span class="op">::</span>layout_with_kk,<span class="dt">pertu=</span><span class="ot">FALSE</span>,<span class="dt">inter=</span><span class="ot">NULL</span>,</span>
+<span id="cb21-2"><a href="#cb21-2"></a>      <span class="dt">cutoff=</span><span class="ot">NULL</span>,<span class="dt">main=</span><span class="ot">NULL</span>,<span class="dt">digits=</span><span class="dv">2</span>,<span class="dt">v.type=</span><span class="st">&quot;circle&quot;</span>,<span class="dt">p.type=</span><span class="st">&quot;rectangle&quot;</span>,</span>
+<span id="cb21-3"><a href="#cb21-3"></a>      <span class="dt">outfile=</span><span class="ot">NULL</span>, ...)</span></code></pre></div>
+</div>
+<div id="arguments-4" class="section level3">
+<h3>Arguments</h3>
+<table>
+<colgroup>
+<col width="44%"></col>
+<col width="55%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>map</code></td>
+<td>A list containing the connectivity map (link matrix) of a network, and local matrix responses to perturbations, i.e., the output of <code>mra</code>.</td>
+</tr>
+<tr class="even">
+<td><code>layout</code></td>
+<td>Either a data.frame containing the x and y coordinates and the color of the vertices in the network, or a layout function according to the igraph package. Default uses the “layout_with_kk” igraph layout.</td>
+</tr>
+<tr class="odd">
+<td><code>pertu</code></td>
+<td>A boolean specifying whether perturbations should be plotted as vertices in the network.</td>
+</tr>
+<tr class="even">
+<td><code>inter</code></td>
+<td>Confidence intervals calculated by <code>interval</code>; connectivity coefficient with a confidence interval that does not include 0 are deemed significant and marked by an asterisk.</td>
+</tr>
+<tr class="odd">
+<td><code>cutoff</code></td>
+<td>Minimum value for a connectivity link coefficient between two modules for being plotted.</td>
+</tr>
+<tr class="even">
+<td><code>main</code></td>
+<td>A character string giving the title of the plot.</td>
+</tr>
+<tr class="odd">
+<td><code>digits</code></td>
+<td>Number of digits to be plotted for each connectivity coefficient.</td>
+</tr>
+<tr class="even">
+<td><code>v.type</code></td>
+<td>Vertex type for biological modules. One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.</td>
+</tr>
+<tr class="odd">
+<td><code>p.type</code></td>
+<td>Vertex type for perturbations. One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.</td>
+</tr>
+<tr class="even">
+<td><code>outfile</code></td>
+<td>Optional. A character string giving the name of the output file in graphML format.</td>
+</tr>
+<tr class="odd">
+<td><code>...</code></td>
+<td>Arguments to be passed to igraph plot such as vertex and edges plotting parameters.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="value-4" class="section level3">
+<h3>Value</h3>
+<p>If layout is an igraph function, then a data.frame containing the coordinates of the layout selected is returned. If outfile is not NULL, then the network is written in the graphML file format.</p>
+</div>
+<div id="examples-4" class="section level3">
+<h3>Examples</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a> data=<span class="kw">data.setup</span>(<span class="kw">list</span>(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))</span>
+<span id="cb22-2"><a href="#cb22-2"></a> sd.mean=<span class="kw">data2sdmean</span>(data)</span>
+<span id="cb22-3"><a href="#cb22-3"></a> rules=<span class="kw">c</span>(<span class="st">&quot;Et-&gt;Luciferase&quot;</span>,<span class="st">&quot;E2+siRIP140-&gt;RIP140&quot;</span>,<span class="st">&quot;E2+siLCoR-&gt;LCoR&quot;</span>,<span class="st">&quot;E2-&gt;0&quot;</span>)</span>
+<span id="cb22-4"><a href="#cb22-4"></a> matp=<span class="kw">read.rules</span>(rules)</span>
+<span id="cb22-5"><a href="#cb22-5"></a> map=<span class="kw">mra</span>(sd.mean<span class="op">$</span>mean,matp,<span class="dt">check=</span><span class="ot">FALSE</span>)</span>
+<span id="cb22-6"><a href="#cb22-6"></a> inter=<span class="kw">interval</span>(sd.mean<span class="op">$</span>mean,sd.mean<span class="op">$</span>sd,matp,<span class="dt">nrep=</span><span class="dv">6</span>)</span>
+<span id="cb22-7"><a href="#cb22-7"></a> <span class="kw">netgraph</span>(map,<span class="dt">pertu=</span><span class="ot">TRUE</span>,<span class="dt">inter=</span>inter)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="read.rules" class="section level2">
+<h2><strong>read.rules()</strong></h2>
+<p>Creates a perturbation matrix from a set of perturbation rules.</p>
+<div id="description-5" class="section level3">
+<h3>Description</h3>
+<p>A function that takes a set of perturbation rules as input and creates a perturbation matrix to be used in other functions of the package.</p>
+</div>
+<div id="usage-5" class="section level3">
+<h3>Usage</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">read.rules</span>(obj)</span></code></pre></div>
+</div>
+<div id="arguments-5" class="section level3">
+<h3>Arguments</h3>
+<table>
+<colgroup>
+<col width="44%"></col>
+<col width="55%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>obj</code></td>
+<td>Either the path to a perturbation rules file without header, or a vector of strings specifying the perturbation rules (see details).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="details" class="section level3">
+<h3>Details</h3>
+<p>Perturbation rules are a set of strings specifying the action of perturbations upon modules in a network. In both cases, modules and perturbations must have the same names as the row and column names in experimental data tables (names are case sensitive).</p>
+<p>The rules syntax is <code>Perturbation-&gt;Module</code> for a single perturbation,<code>Perturbation-&gt;0</code> to specify the basal line and <code>0-&gt;Module</code> to specify modules that were not perturbated, but for which connectivity issued from other modules exist (unidirectional MRA). At least two rules and a basal line must be defined.</p>
+</div>
+<div id="examples-5" class="section level3">
+<h3>Examples</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a> rules=<span class="kw">c</span>(<span class="st">&quot;Et-&gt;Luciferase&quot;</span>,<span class="st">&quot;E2+siRIP140-&gt;RIP140&quot;</span>,<span class="st">&quot;E2+siLCoR-&gt;LCoR&quot;</span>,<span class="st">&quot;E2-&gt;0&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
