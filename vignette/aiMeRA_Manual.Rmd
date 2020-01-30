@@ -20,15 +20,142 @@ library(aiMeRA)
 
 
 
-## **Quick start**
+# **Quick start**
 
--------------   
+This is an illustration of how functions of the aiMeRA package can be used to uncover coupling in biological networks. A data set containing qPCR data is available from the package to provide an example. In addition, the data sets used in MRA original paper
+(Figures 7a and 7b, Kholodenko,et.al, PNAS, 2002) are also included.
 
-## **Examples of advanced use**
+We show how to compute the coupling between the Estrogen Receptor alpha (ER), the Retinoic Acid Receptor (RAR), and two corepressors of their transcriptional activity that are RIP140 (NRIP1) and LCoR. Data for three transfections (biological replicate) and two
+technical replicates per transfection are stored in six data tables called:
 
--------------  
+```r
+estr1_A     estr1_B    estr2_A    estrt2_B    estr3_A     estr3_B
+```
+The objective in this example is to retrieve the MRA connectivity coefficients (connectivity map) between the four modules mentioned above when the system is in a double-stimulation condition with estradiol (E2) and retinoic acid (RA). 
 
-## **Functions**
+### **Reading the data**
+
+A specific format for the input data tables is required: the first column of each table must contain the names of the biological modules, and the columns names should be the names of the perturbations. In order to check whether the format of the data set is correct, we use the function ```data.setup()```
+
+```r
+data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+```
+This function also accepts a specific path to a folder containing the data table files and the perturbations rules file in a .cvs format  
+
+```r
+#Example of reading the data from a specific folder
+data=data.setup(/User/some_path_to_folder_files/)
+```
+
+If more than one data table are checked, then a list of matrices in the correct format for the mra function is returned. 
+If a single table is checked, then a single matrix in the right format is returned. It also checks for correspondance with the 
+perturbation rules table. 
+
+###  **Perturbation rules table**
+
+**Perturbation rules** are a set of expressions to specify how perturbations are affecting biological modules. Since the aiMeRA package is based on classical Modular Response Analysis (MRA) it assumes that one perturbation must affect only one module of the network. This is specified as binary values in the **perturbation matrix**.
+
+The perturbation matrix can be created from a set of perturbations rules using the function ```read.rules()```
+
+The rules syntax is  ```Perturbation->Module``` for a single perturbation,```Perturbation->0``` to specify the basal line and optionally
+ ```0->Module``` to specify modules that were not perturbated, but for which connectivity issued from other modules exists (unidirectional MRA).
+
+We define the elements of our network as follows:   
+
+**Biological modules:**
+
+- **LCoR**  LCoR gene expression
+- **RIP140** NRIP1 gene expression 
+- **Luciferase** ER transcriptional activity reporter 
+- **Hoxa5** RAR transcriptional activity reporter
+
+**Perturbations:** 
+
+- **E2+RA+siLCoR:** Downregulation of LCoR by a siRNA in the double-stimulation condition.
+- **E2+RA+siRIP140:**  Downregulation of RIP140 by a siRNA in the double-stimulation condition.
+- **E2:** Estradiol stimulation 
+- **RA:** Retinoic Acid stimulation
+
+**Basal line:**
+
+- **E2+RA** The double stimulation condition
+
+**Perturbation rules:**
+
+- **E2+RA+siLCoR->LCoR**
+- **E2+RA+siRIP140->siRIP140**
+- **E2->Hoxa5** (Switch from E2+RA to E2)
+- **RA->Luciferase** (Switch from E2+RA to RA)
+- **E2+RA->0** (The basal line)
+
+NOTE: Modules and perturbations must have the same names as the row and column names in experimental data tables (names are case sensitive).
+
+Rules can be defined as a character vector and then transformed into a perturbation matrix as follows:
+
+```r
+rules=c("E2+RA+siLCoR->LCoR","E2+RA+siRIP140->siRIP140","E2->Hoxa5","RA->Luciferase","E2+RA->0")
+matp=read.rules(rules)
+```
+or they can be read from a .csv file.
+
+```r
+#Example of reading perturbation rules from a specific folder
+rules=read.rules(/User/some_path_to_folder/rules_file.csv)
+```
+
+The output of the function will be the peturbation matrix:
+
+```{r, eval=TRUE, echo=FALSE}
+rules=c("E2+RA+siLCoR->LCoR","E2+RA+siRIP140->siRIP140","E2->Hoxa5","RA->Luciferase","E2+RA->0")
+read.rules(rules)
+```
+
+### **Calculation of the connectivity map**
+
+Once the data tables are in the right format and the perturbation matrix has been created the next step is to calculate the connectivity map of the network. For this example we chose to average the six data tables using the ```data2sdmean()``` function.
+
+```r
+data=data2sdmean(data)
+```
+This function creates a list containing the standard deviation and average values of a data set. Namely, if n replicates were generated,
+then n data tables should be provided to ```data.setup``` and ```data2sdmean``` computes the average and standard deviation of each cell over the n replicates.  
+
+Finally we compute the connectivity map with the ```mra()``` function.
+
+```r
+res=mra(data$mean,matp)
+```
+### **Plot of the connectivity map**
+
+The ```netgraph()``` function plots a graphical version of the network connectivity map that is returned by the ```mra()``` function.
+
+```r
+netgraph(map)
+```
+
+Stimation of confidence intervals for each connectivity coefficient is obtained using the ```interval()``` function.
+
+```r
+inter=interval(data$mean,data$sd,matp,nrep=6)
+```
+We use the output of this function to add asteriks on each coefficient for which zero is not included inside the confidence interval.
+
+```r
+netgraph(map,inter=inter)
+```
+
+![][id]
+
+[id]: ./map_graph.png
+
+
+The netgraph function have many arguments parameters that can be changed by the user to fit his needs (see function **netgraph()** details.)  
+
+
+
+
+
+# **Functions**
 
 - **data.setup()**   
 - **data2sdmean()**   
@@ -72,7 +199,7 @@ Argument      |Description
 
  If more than one data table are checked, then a list of matrices in the correct
  format for the mra function is returned. If a single table is checked, then a single matrix in the right format is returned.
- It also checks for correspondance with the perurbation rules table.
+ It also checks for correspondance with the perturbation rules table.
 
 
 ### Examples
@@ -204,12 +331,6 @@ Argument      |Description
 ```matp```     |     A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.
 ```check```     |     Logical. If ```TRUE``` then data and perturbation rule are checked for consistency (by calling ```data.setup```).
 
-### Details
-
-
- It assumes that one perturbation must affect only one module of the network. This is specified as binary values in
- the perturbation matrix. It also assumes that row names in data tables are the names of biological modules and column names are the
- the names of perturbations.  ---->> A DEFINIR SEPAREMENT
 
 
 ### Value
