@@ -1,10 +1,11 @@
 ---
 title: "aiMeRA User's Guide"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{my_vignette}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+vignette: |
+  %\VignetteIndexEntry{my-vignette} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
@@ -120,25 +121,25 @@ data=data2sdmean(data)
 This function creates a list containing the standard deviation and average values of a data set. Namely, if n replicates were generated,
 then n data tables should be provided to ```data.setup``` and ```data2sdmean``` computes the average and standard deviation of each cell over the n replicates.  
 
-Finally we compute the connectivity map with the ```mra()``` function.
+Finally we compute the connectivity map using the ```mra()``` function.
 
 ```r
 res=mra(data$mean,matp)
 ```
 ### **Plot of the connectivity map**
 
-The ```netgraph()``` function plots a graphical version of the network connectivity map that is returned by the ```mra()``` function.
+The ```netgraph()``` function plots a graphical version of the network connectivity map returned by the ```mra()``` function.
 
 ```r
 netgraph(map)
 ```
 
-Stimation of confidence intervals for each connectivity coefficient is obtained using the ```interval()``` function.
+Estimation of confidence intervals for each connectivity coefficient is obtained using the ```interval()``` function.
 
 ```r
 inter=interval(data$mean,data$sd,matp,nrep=6)
 ```
-We use the output of this function to add asteriks on each coefficient for which zero is not included inside the confidence interval.
+The output of this function allows to add an asterik on each coefficient for which zero is not included within the confidence interval.
 
 ```r
 netgraph(map,inter=inter)
