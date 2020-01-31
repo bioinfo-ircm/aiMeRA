@@ -61,7 +61,7 @@ The perturbation matrix can be created from a set of perturbations rules using t
 The rules syntax is  ```Perturbation->Module``` for a single perturbation,```Perturbation->0``` to specify the basal line and optionally
  ```0->Module``` to specify modules that were not perturbated, but for which connectivity issued from other modules exists (unidirectional MRA).
 
-We define the elements of our network as follows:   
+For this example we define the elements of our network as follows:   
 
 **Biological modules:**
 
@@ -89,7 +89,6 @@ We define the elements of our network as follows:
 - **RA->Luciferase** (Switch from E2+RA to RA)
 - **E2+RA->0** (The basal line)
 
-NOTE: Modules and perturbations must have the same names as the row and column names in experimental data tables (names are case sensitive).
 
 Rules can be defined as a character vector and then transformed into a perturbation matrix as follows:
 
@@ -110,6 +109,8 @@ The output of the function will be the peturbation matrix:
 rules=c("E2+RA+siLCoR->LCoR","E2+RA+siRIP140->siRIP140","E2->Hoxa5","RA->Luciferase","E2+RA->0")
 read.rules(rules)
 ```
+
+NOTE: Modules and perturbations must have the same names as the row and column names in experimental data tables (names are case sensitive).
 
 ### **Calculation of the connectivity map**
 
