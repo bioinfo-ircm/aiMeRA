@@ -41,7 +41,7 @@ A specific format for the input data tables is required: the first column of eac
 ```r
 data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
 ```
-This function also accepts a specific path to a folder containing the data table files and the perturbation rules file in a .cvs format  
+This function also accepts a specific path to a folder containing the data table files and the perturbation rules file in a .cvs format.  
 
 ```r
 #Example of reading the data from a specific folder
@@ -151,7 +151,7 @@ netgraph(map,inter=inter)
 [id]: ./map_graph.png
 
 
-The netgraph function have many arguments parameters that can be changed by the user to fit his needs (see function **netgraph()** details.)  
+The netgraph function have many arguments parameters that can be changed by the user to fit his needs (see function **netgraph()** details).  
 
 
 
