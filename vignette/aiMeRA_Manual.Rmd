@@ -100,7 +100,7 @@ or they can be read from a .csv file.
 
 ```r
 #Example of reading perturbation rules from a specific folder
-rules=read.rules(/User/some_path_to_folder/rules_file.csv)
+rules=read.rules("/User/some_path_to_folder/rules_file.csv")
 ```
 
 The output of the function will be the peturbation matrix:
