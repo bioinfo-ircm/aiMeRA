@@ -4,9 +4,9 @@
 \alias{netgraph}
 \title{Plotting of networks connectivity map}
 \usage{
-netgraph(map,layout=igraph::layout_with_kk,pertu=FALSE,inter=NULL,
-      cutoff=NULL,main=NULL,digits=2,v.type="circle",p.type="rectangle",
-      outfile=NULL, ...)
+netgraph(map,layout=igraph::layout_with_kk,pertu=NULL,inter=NULL,
+      cutoff=NULL,main=NULL,digits=2,outfile=NULL,module.in=NULL,
+      module.out=NULL, no.module=NULL,neg.col="red",pos.col="green", ...)
 }
 \arguments{
 \item{map}{A list containing the connectivity map (link matrix) of a network, and local matrix responses
@@ -15,7 +15,7 @@ to perturbations, i.e., the output of ```mra```.}
 \item{layout}{Either a data.frame containing the x and y coordinates and the color of the vertices in the network,
 or a layout function according to the igraph package. Default uses the "layout_with_kk" igraph layout.}
 
-\item{pertu}{A boolean specifying wether the perturbations should be plotted as vertices in the network.}
+\item{pertu}{The name of perturbations to be plotted as vertices in the network.}
 
 \item{inter}{Confidence intervals calculated by ```interval```; connectivity coefficient with a confidence
 interval that does not include 0 are deemed significant and marked by an asterisk.}
@@ -26,13 +26,20 @@ interval that does not include 0 are deemed significant and marked by an asteris
 
 \item{digits}{Number of digits to be plotted for each connectivity coefficient.}
 
-\item{v.type}{Vertex type for biological modules. One of “none”, “circle”, “square”, “csquare”, “rectangle”
-“crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.}
-
-\item{p.type}{Vertex type for perturbations. One of “none”, “circle”, “square”, “csquare”, “rectangle”
-“crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.}
-
 \item{outfile}{Optional. A character string giving the name of the output file in graphML format.}
+
+\item{module.in}{The name of one or more nodes for which only the incoming connectivity
+from other nodes of the network should be plotted.}
+
+\item{module.out}{The name of one or more nodes for which only the outcoming connectivity
+to other nodes of the network should be plotted.}
+
+\item{no.module}{The name of one or more nodes for which incoming and outcoming connectivity
+should not be plotted.}
+
+\item{neg.col}{A color to be used for arrows with negative connectivity coefficients}
+
+\item{pos.col}{A color to be used for arrows with positive connectivity coefficients}
 
 \item{...}{Arguments to be passed to igraph plot such as vertex and edges plotting parameters.}
 }
@@ -52,6 +59,6 @@ sd.mean=data2sdmean(tec.av)
 rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
 matp=read.rules(rules)
 map=mra(sd.mean$mean,matp)
-inter=interval(sd.mean$mean,sd.mean$sd,matp,nrep=6)
+inter=interval(sd.mean$mean,sd.ex,matp,nrep=6)
 netgraph(map,inter=inter)
 }

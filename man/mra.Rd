@@ -4,26 +4,30 @@
 \alias{mra}
 \title{Modular Reponse Analysis function}
 \usage{
-mra(tab,matp,check=TRUE)
+mra(tab,matp,check=TRUE,Rp=FALSE)
 }
 \arguments{
-\item{tab}{Data in the format returned by ```data.setup``` or a single data table in the format required by ```data.setup```.}
+\item{tab}{A data.frame containing experimental data in a specific format (see details).}
 
-\item{matp}{A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.}
+\item{matp}{The perturbation matrix. Names of modules (rows) and perturbations (columns) must correspond to names of rows
+and columns in tab.}
 
-\item{check}{Logical. If ```TRUE``` then data and perturbation rule are checked for consistency (by calling ```data.setup```).}
+\item{check}{Logical. Should the dataset and perutbation matrix be checked for input errors?}
+
+\item{Rp}{Logical. TRUE if ```tab``` is the calcuated global response matrix.}
 }
 \value{
 A list containing the connectivity map, the local responses matrix, the network responses matrix to perturbations
         and the basal line for all modules.
 }
 \description{
-Calculation of connectivity coefficients between MRA modules
+Calculation of connectivity coefficients between modules in biological networks
 using modular response analysis.
 }
 \details{
-A list containing the connectivity map, the local responses matrix, the network responses matrix to perturbations
-and the basal line for all the modules.
+It assumes that one perturbation must affect only one biological module of the network. This is specified as binary values in
+the perturbation matrix. It also assumes that row names in data tables are the names of biological modules and column names are the
+the names of perturbations.
 }
 \examples{
 #It creates the connectivity map between 2 transcriptional nuclear coregulators

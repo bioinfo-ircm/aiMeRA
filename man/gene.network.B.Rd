@@ -4,7 +4,8 @@
 \name{gene.network.B}
 \alias{gene.network.B}
 \title{Dataset B of a four-gene network model from Kholodenko et.al.2002}
-\format{A data frame with 4 rows (biological modules) and  5 variables (perturbations):
+\format{
+A data frame with 4 rows (biological modules) and  5 variables (perturbations):
 \describe{
    \item{Modules}{Names of biological modules}
    \item{pert1}{Perturbation targeting gene1}
@@ -13,7 +14,8 @@
    \item{pert4}{Perturbation targeting gene4}
    \item{basal}{No perturbation}
    ...
-}}
+}
+}
 \source{
 \url{EDF R\&D}
 }

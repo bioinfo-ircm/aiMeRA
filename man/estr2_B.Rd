@@ -4,7 +4,8 @@
 \name{estr2_B}
 \alias{estr2_B}
 \title{qPCR data table 2_B from perturbations to the ERs,RARs, LCoR and RIP140 network}
-\format{A data frame with 8 rows (biological modules) and  17 variables (perturbations and modules name):
+\format{
+A data frame with 8 rows (biological modules) and  17 variables (perturbations and modules name):
 \describe{
    \item{Modules}{Names of biological modules}
    \item{Et}{Ethanol}
@@ -24,7 +25,8 @@
    \item{RA+siLCoR+siRIP140}{Retinoic acid, LCoR gene silencing RNA and RIP140 gene silencing RNA}
    \item{E2+RA+siLCoR+siRIP140}{Estradiol, retinoic acid, LCoR gene silencing RNA and RIP140 gene silencing RNA}
    ...
-}}
+}
+}
 \source{
 \url{EDF R\&D}
 }

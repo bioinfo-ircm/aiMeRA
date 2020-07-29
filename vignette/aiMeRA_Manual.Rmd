@@ -84,7 +84,7 @@ For this example we define the elements of our network as follows:
 **Perturbation rules:**
 
 - **E2+RA+siLCoR->LCoR**
-- **E2+RA+siRIP140->siRIP140**
+- **E2+RA+siRIP140->RIP140**
 - **E2->Hoxa5** (Switch from E2+RA to E2)
 - **RA->Luciferase** (Switch from E2+RA to RA)
 - **E2+RA->0** (The basal line)
@@ -93,7 +93,7 @@ For this example we define the elements of our network as follows:
 Rules can be defined as a character vector and then transformed into a perturbation matrix as follows:
 
 ```r
-rules=c("E2+RA+siLCoR->LCoR","E2+RA+siRIP140->siRIP140","E2->Hoxa5","RA->Luciferase","E2+RA->0")
+rules=c("E2+RA+siLCoR->LCoR","E2+RA+siRIP140->RIP140","E2->Hoxa5","RA->Luciferase","E2+RA->0")
 matp=read.rules(rules)
 ```
 or they can be read from a .csv file.
@@ -106,7 +106,7 @@ rules=read.rules("/User/some_path_to_folder/rules_file.csv")
 The output of the function will be the peturbation matrix:
 
 ```{r, eval=TRUE, echo=FALSE}
-rules=c("E2+RA+siLCoR->LCoR","E2+RA+siRIP140->siRIP140","E2->Hoxa5","RA->Luciferase","E2+RA->0")
+rules=c("E2+RA+siLCoR->LCoR","E2+RA+siRIP140->RIP140","E2->Hoxa5","RA->Luciferase","E2+RA->0")
 read.rules(rules)
 ```
 
