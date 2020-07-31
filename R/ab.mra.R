@@ -1,13 +1,13 @@
 #'@title Inference of a double perturbation outcome from a connectivity network created with MRA.
-#'@description This function first calculates the connectivity map of a network containing biological
-#'modules and perturbation as specified in the perturbation matrix. Then, it infers the output
+#'@description Function that first calculates the connectivity map of a network containing biological
+#'modules and perturbation as specified in the perturbation matrix of the network. Then, it infers the output
 #'of combining two perturbations used in the construction of the MRA model.
 #'@usage ab.mra(data,matp,pred=NULL,pert1,pert2,inval=c(-1,1),step=0.1,Rp=FALSE,ab=TRUE)
 #'@param data A data frame containing the experimental data in the specific format for MRA calculations.
 #'@param matp The perturbation matrix. Names of modules (rows) and perturbations (columns) must correspond to names of rows
 #'            and columns in tab.
-#'@param pred String. Name of the double perturbation to be inferred if the experimental values of such perturbation
-#'for al modules are given as reference in ```data```. Default is NULL.
+#'@param pred String. Name of the double perturbation to be inferred (if the experimental values for all modules of
+#'such perturbation are given as reference in ```data```). Default is NULL.
 #'@param pert1 String. Name of the first individual peturbation.
 #'@param pert2 String. Name of the second individual perturbation.
 #'@param inval A two values vector given the lower and the upper limit of the interval of the a and b coefficients
@@ -17,7 +17,7 @@
 #'@param ab Logical. If TRUE then the inferred values of a double perturbation are obtained
 #'by using the a and b coefficients as defined for the ab.mra calculation. If ab=FALSE then
 #'a=1 and b=1 (See details).
-#'@return A list containing: If ```pert``` is provided and ```ab=TRUE``` then the inferred value, the refrence data
+#'@return List. If ```pert``` is provided and ```ab=TRUE``` then the inferred value, the refrence data
 #'and the values for the a and b coefficients are returned. If ```pert``` is provided and ```ab=FALSE``` then the inferred and
 #'the reference values are returned. If ```pert``` is not provided then only the inferred values are returned. This
 #'will produce a warning message suggesting that the inferred values must be validated by experimental data.

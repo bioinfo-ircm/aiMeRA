@@ -12,8 +12,8 @@ ab.mra(data,matp,pred=NULL,pert1,pert2,inval=c(-1,1),step=0.1,Rp=FALSE,ab=TRUE)
 \item{matp}{The perturbation matrix. Names of modules (rows) and perturbations (columns) must correspond to names of rows
 and columns in tab.}
 
-\item{pred}{String. Name of the double perturbation to be inferred if the experimental values of such perturbation
-for al modules are given as reference in ```data```. Default is NULL.}
+\item{pred}{String. Name of the double perturbation to be inferred (if the experimental values for all modules of
+such perturbation are given as reference in ```data```). Default is NULL.}
 
 \item{pert1}{String. Name of the first individual peturbation.}
 
@@ -31,14 +31,14 @@ by using the a and b coefficients as defined for the ab.mra calculation. If ab=F
 a=1 and b=1 (See details).}
 }
 \value{
-A list containing: If ```pert``` is provided and ```ab=TRUE``` then the inferred value, the refrence data
+List. If ```pert``` is provided and ```ab=TRUE``` then the inferred value, the refrence data
 and the values for the a and b coefficients are returned. If ```pert``` is provided and ```ab=FALSE``` then the inferred and
 the reference values are returned. If ```pert``` is not provided then only the inferred values are returned. This
 will produce a warning message suggesting that the inferred values must be validated by experimental data.
 }
 \description{
-This function first calculates the connectivity map of a network containing biological
-modules and perturbation as specified in the perturbation matrix. Then, it infers the output
+Function that first calculates the connectivity map of a network containing biological
+modules and perturbation as specified in the perturbation matrix of the network. Then, it infers the output
 of combining two perturbations used in the construction of the MRA model.
 }
 \details{
