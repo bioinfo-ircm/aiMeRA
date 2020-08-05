@@ -1,18 +1,18 @@
-#'@title Inference of a double perturbation outcome from a connectivity network created with MRA.
-#'@description Function that first calculates the connectivity map of a network containing biological
-#'modules and perturbation as specified in the perturbation matrix of the network. Then, it infers the output
-#'of combining two perturbations used in the construction of the MRA model.
+#'@title Inference of the effect of a double perturbation upon the connectivity of a network created with MRA.
+#'@description This function first calculates the coupling between the elements  of a biological network
+#'using MRA and then, it infers the output of combining two of the perturbations used for the construction
+#'of the model.
 #'@usage ab.mra(data,matp,pred=NULL,pert1,pert2,inval=c(-1,1),step=0.1,Rp=FALSE,ab=TRUE)
 #'@param data A data frame containing the experimental data in the specific format for MRA calculations.
 #'@param matp The perturbation matrix. Names of modules (rows) and perturbations (columns) must correspond to names of rows
 #'            and columns in tab.
-#'@param pred String. Name of the double perturbation to be inferred (if the experimental values for all modules of
+#'@param pred String. Name of the double perturbation to be inferred (only if the experimental values for all modules of
 #'such perturbation are given as reference in ```data```). Default is NULL.
 #'@param pert1 String. Name of the first individual peturbation.
 #'@param pert2 String. Name of the second individual perturbation.
 #'@param inval A two values vector given the lower and the upper limit of the interval of the a and b coefficients
 #' for the ab.mra calculation (See details).
-#'@param step Number. Increment of the sequence within the interval for the a and b coefficients.
+#'@param step Number. Increment of the sequence of the interval for the a and b coefficients.
 #'@param Rp Logical. TRUE if ```data``` is the calcuated global response matrix. Default is FALSE
 #'@param ab Logical. If TRUE then the inferred values of a double perturbation are obtained
 #'by using the a and b coefficients as defined for the ab.mra calculation. If ab=FALSE then

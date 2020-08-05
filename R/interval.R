@@ -1,15 +1,15 @@
 #'@title Confidence interval calculation for MRA connectivity coefficients
 #'@description A function that estimates confidence intervals of MRA connectivity coefficients
 #'based on replicates. It uses a bootstrap algorithm.
-#'@usage interval(tab,sd.tab,matp,n=10000,nrep=2)
+#'@usage interval(tab,mean=0,sd.tab,matp,Rp=FALSE,n=10000)
 #'@param tab A data table containing the experimental data in the format output by ```data.setup```.
-#'@param sd.tab A data table containing the standard deviation values.
+#'@param mean mean of the normal distribution for creating the noisy matrices.
+#'@param sd.tab A data table containing the standard deviation values of replicates for creating the noisy matrices.
 #'@param matp A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.
 #'@param n Number of samples for the bootstrap algorithm.
-#'@param nrep Number of experimental replicas. Default is 2.
+#'@param Rp Logical. TRUE if ```tab``` is the calcuated global response matrix.
 #'@return A list containing the upper and lower values of the confidence interval of each connectivity coefficient.
 #'@export
-#'@importFrom stats quantile
 #'@importFrom stats rnorm
 #'@examples
 #'data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
@@ -20,23 +20,29 @@
 #'rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
 #'matp=read.rules(rules)
 #'#The variance of each variable was estimated employing an estimator optimized for a
-#'#small sample size from Statistical Process Control theory (Wheeler and Chambers, 1992; Harter, 1960).
-#'interval(sd.mean$mean,sd.ex,matp,nrep=6)
+#'#small sample size from Statistical Process Control theory
+#'#(Wheeler and Chambers, 1992; Harter, 1960).
+#'sd.ex=sd.ex/sqrt(6)
+#'interval(sd.mean$mean,sd.tab=sd.ex,matp=matp)
 
-interval=function(tab,sd.tab,matp,n=10000,nrep=2)
+interval=function(tab,mean=0,sd.tab,matp,Rp=FALSE,n=10000)
 {
   if(!is.matrix(sd.tab))
     sd.tab=as.matrix(sd.tab)
-  data.setup(tab,matp)
-  lb=colnames(matp)[colSums(matp)==0]
-  genes=rownames(matp)
+  if(!Rp)
+    data.setup(tab,matp)
+  genes = rownames(matp)
+  lb = colnames(matp)[colSums(matp) == 0]
+  pt=colnames(matp)[colnames(matp)!=lb]
+  tab=switch(2-Rp,tab[genes,pt],tab[genes,c(pt,lb)])
   rlist=list()
   rplist=list()
   for (i in 1:n)
   {
     pertus=colnames(matp)
-    xbruit=tab+rnorm(ncol(tab)*nrow(tab),0,(sd.tab/sqrt(nrep)))
-    res=mra(xbruit,matp,check=FALSE)
+    bruit=rnorm(ncol(tab)* nrow(tab),mean,as.vector(sd.tab))
+    xbruit=tab+bruit
+    res = mra(xbruit, matp, check = FALSE, Rp=ifelse(Rp,TRUE,FALSE))
     diag(res$link_matrix)=NA
     r=as.vector(res$link_matrix)
     rp=diag(res$local_matrix)

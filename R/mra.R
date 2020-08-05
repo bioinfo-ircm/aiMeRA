@@ -1,6 +1,6 @@
 #'@title Modular Reponse Analysis function
 #'
-#'@description Calculation of connectivity coefficients between modules in biological networks
+#'@description Calculation of connectivity coefficients between modules in a biological network
 #' using modular response analysis.
 #'@usage mra(tab,matp,check=TRUE,Rp=FALSE)
 #'@param tab A data.frame containing experimental data in a specific format (see details).

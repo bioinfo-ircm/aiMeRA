@@ -164,7 +164,8 @@ The netgraph function have many arguments parameters that can be changed by the 
 - **interval()**   
 - **mra()**    
 - **netgraph()**    
-- **read.rules()**   
+- **read.rules()**
+- **ab.mra()**
 
 
 
@@ -271,7 +272,7 @@ Confidence interval calculation for MRA connectivity coefficients
 ### Usage
 
 ```r
-interval(tab,sd.tab,matp,n=10000,nrep=2)
+interval(tab,mean=0,sd.tab,matp,Rp=FALSE,n=10000)
 ```
 
 
@@ -280,10 +281,11 @@ interval(tab,sd.tab,matp,n=10000,nrep=2)
 Argument      |Description
 ------------- |----------------
 ```tab```     |     A data table containing the experimental data in the format output by ```data.setup```.
-```sd.tab```     |     A data table containing the standard deviation values.
+```mean```     |     mean of the normal distribution for creating the noisy matrices.
+```sd.tab```     |     A data table containing the standard deviation values of replicates for creating the noisy matrices.
 ```matp```     |     A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.
+```Rp```     |     Logical. TRUE if ```tab``` is the calcuated global response matrix.
 ```n```     |     Number of samples for the bootstrap algorithm.
-```nrep```     |     Number of replicates. Default is 2.
 
 ### Value
 
@@ -295,16 +297,18 @@ Argument      |Description
 
 ```r 
  data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
- 
- # we first average the technical replicates of each biological replicate
- # and then only keep the (averaged) biological replicates for the calculation
- CODE
- sd.mean=data2sdmean(data)
+ #We first average the technical replicates of each biological replicate
+ #and then only keep the (averaged) biological replicates for the calculation
+ tec.av=list(data2sdmean(data[1:2])$mean,data2sdmean(data[3:4])$mean,data2sdmean(data[5:6])$mean)
+ sd.mean=data2sdmean(tec.av)
  rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
  matp=read.rules(rules)
- interval(sd.mean$mean,sd.mean$sd,matp,nrep=6)
- ``` 
-
+ #The variance of each variable was estimated employing an estimator optimized for a
+ #small sample size from Statistical Process Control theory
+ #(Wheeler and Chambers, 1992; Harter, 1960).
+ sd.ex=sd.ex/sqrt(6)
+ interval(sd.mean$mean,sd.tab=sd.ex,matp=matp) 
+ ```
 
 
 ---
@@ -315,13 +319,14 @@ Modular Reponse Analysis function
 ### Description
 
 
- Calculation of connectivity coefficients between MRA modules.
+ Calculation of connectivity coefficients between modules in a biological network
+ using modular response analysis.
 
 
 ### Usage
 
 ```r
-mra(tab,matp,check=TRUE)
+mra(tab,matp,check=TRUE,Rp=FALSE)
 ```
 
 
@@ -332,7 +337,7 @@ Argument      |Description
 ```tab```     |     Data in the format returned by ```data.setup``` or a single data table in the format required by ```data.setup```.
 ```matp```     |     A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.
 ```check```     |     Logical. If ```TRUE``` then data and perturbation rule are checked for consistency (by calling ```data.setup```).
-
+```Rp```     |     Logical. TRUE if ```tab``` is the calcuated global response matrix.
 
 
 ### Value
@@ -362,7 +367,7 @@ Argument      |Description
 ---
 
 ## **netgraph()**    
-Plot of network connectivity map
+Network connectivity plot
 
 ### Description
 
@@ -373,9 +378,9 @@ Plot of network connectivity map
 ### Usage
 
 ```r
-netgraph(map,layout=igraph::layout_with_kk,pertu=FALSE,inter=NULL,
-      cutoff=NULL,main=NULL,digits=2,v.type="circle",p.type="rectangle",
-      outfile=NULL, ...)
+netgraph(map,layout=igraph::layout_with_kk,pertu=NULL,inter=NULL,
+      cutoff=NULL,main=NULL,digits=2,outfile=NULL,module.in=NULL,
+      module.out=NULL, no.module=NULL,neg.col="red",pos.col="green", ...)
 ```
 
 
@@ -385,14 +390,17 @@ Argument      |Description
 ------------- |----------------
 ```map```     |     A list containing the connectivity map (link matrix) of a network, and local matrix responses to perturbations, i.e., the output of ```mra```.
 ```layout```     |     Either a data.frame containing the x and y coordinates and the color of the vertices in the network, or a layout function according to the igraph package. Default uses the "layout_with_kk" igraph layout.
-```pertu```     |     A boolean specifying whether perturbations should be plotted as vertices in the network.
+```pertu```     |     The name of perturbations to be plotted as vertices in the network.
 ```inter```     |     Confidence intervals calculated by ```interval```; connectivity coefficient with a confidence interval that does not include 0 are deemed significant and marked by an asterisk.
 ```cutoff```     |     Minimum value for a connectivity link coefficient between two modules for being plotted.
 ```main```     |     A character string giving the title of the plot.
 ```digits```     |     Number of digits to be plotted for each connectivity coefficient.
-```v.type```     |     Vertex type for biological modules. One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.
-```p.type```     |     Vertex type for perturbations. One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”.
 ```outfile```     |     Optional. A character string giving the name of the output file in graphML format.
+```module.in```     |     The name of one or more nodes for which only the incoming connectivity from other nodes of the network should be plotted.
+```module.out```     |     The name of one or more nodes for which only the outcoming connectivity to other nodes of the network should be plotted.
+```no.module```     |     The name of one or more nodes for which incoming and outcoming connectivity should not be plotted.
+```neg.col```     |     A color to be used for arrows with negative connectivity coefficients
+```pos.col```     |     A color to be used for arrows with positive connectivity coefficients
 ```...```     |     Arguments to be passed to igraph plot such as vertex and edges plotting parameters.
 
 ### Value
@@ -410,8 +418,8 @@ Argument      |Description
  rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
  matp=read.rules(rules)
  map=mra(sd.mean$mean,matp,check=FALSE)
- inter=interval(sd.mean$mean,sd.mean$sd,matp,nrep=6)
- netgraph(map,pertu=TRUE,inter=inter)
+ inter=interval(sd.mean$mean,sd.tab=sd.mean$sd,matp=matp)
+ netgraph(map,inter=inter)
  ``` 
 
 
@@ -459,6 +467,86 @@ Argument      |Description
 
 
 
+---
+
+## **ab.mra()**
+Inference of the effect of a double perturbation upon the connectivity of a network created with MRA.
+
+### Description
 
 
+ This function first calculates the coupling between the elements  of a biological network
+ using MRA and then, it infers the output of combining two of the perturbations used for the construction
+ of the model.
 
+
+### Usage
+
+```r
+ab.mra(data,matp,pred=NULL,pert1,pert2,inval=c(-1,1),step=0.1,Rp=FALSE,ab=TRUE)
+```
+
+### Arguments
+
+Argument      |Description
+------------- |----------------
+```data```     |     A data frame containing the experimental data in the specific format for MRA calculations.
+```matp```     |     The perturbation matrix. Names of modules (rows) and perturbations (columns) must correspond to names of rows and columns in tab.
+```pred```     |     String. Name of the double perturbation to be inferred (only if the experimental values for all modules of such perturbation are given as reference in ```data```). Default is NULL.
+```pert1```     |     String. Name of the first individual peturbation.
+```pert2```     |     String. Name of the second individual perturbation.
+```inval```     |     A two values vector given the lower and the upper limit of the interval of the a and b coefficients for the ab.mra calculation (See details).
+```step```     |     Number. Increment of the sequence of the interval for the a and b coefficients.
+```Rp```     |     Logical. TRUE if ```data``` is the calcuated global response matrix. Default is FALSE
+```ab```     |     Logical. If TRUE then the inferred values of a double perturbation are obtained by using the a and b coefficients as defined for the ab.mra calculation. If ab=FALSE then a=1 and b=1 (See details).
+
+### Details
+
+
+ The ab.MRA inference is based on the hypothesis that it is possible to infer experimental values for
+ the combination of two perturbations used for the classical MRA calculation of the connectivity of a network. The hypothesis
+ is that by including the two local responses of two perturbations into a new system for which the network
+ connectivity is known then it is possible to infer the values of a double perturbation for all the biological
+ modules in the network.
+ 
+ Two coefficients (a and b) that ponderate the local responses to perturbations (local_matrix) indicate
+ whether the effect of the combined perturbations remains equal as their individual effect (a=1 and b=1), or it is attenuated (abs(a)<1 and abs(b)<1)
+ or amplified (abs(a)>1 and abs(b)>1). The a, b coefficients are coefficients that minimize the euclidian
+ distance between the infered values and the reference experimental values of all modules.
+ 
+### Value
+
+
+ List. If ```pert``` is provided and ```ab=TRUE``` then the inferred value, the refrence data
+ and the values for the a and b coefficients are returned. If ```pert``` is provided and ```ab=FALSE``` then the inferred and
+ the reference values are returned. If ```pert``` is not provided then only the inferred values are returned. This
+ will produce a warning message suggesting that the inferred values must be validated by experimental data.
+ 
+ 
+### Examples
+
+```r 
+ #Inferrence of a double perturbation by two siRNAs (siRIP140 and siLCoR)
+ #in a E2 stimulated biological condition of the ERa-RIP140-LCoR network.
+ data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+ data.mean=data2sdmean(data)$mean
+ rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
+ matp=read.rules(rules)
+ #Inferrence with the experimental value of reference and without the a and b coefficients
+ ab.mra(data.mean,matp=matp,pred="E2+siLCoR+siRIP140",pert1="E2+siLCoR",
+ pert2="E2+siRIP140",ab=FALSE)
+ #Inferrence with the experimental value of reference and the a and b coefficients
+ ab.mra(data.mean,matp=matp,pred="E2+siLCoR+siRIP140",pert1="E2+siLCoR",
+ pert2="E2+siRIP140")
+ #Inferrence without the expeimental value of reference and without the a and b coefficients.
+ ab.mra(data.mean,matp=matp,pred="E2+siLCoR+siRIP140",pert1="E2+siLCoR",
+ pert2="E2+siRIP140")
+ 
+ #Inferrence of a biological module (GREB1) without the a,b coefficients,
+ #which does not have an individual perturbation
+ data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
+ data.mean=data2sdmean(data)$mean
+ rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0","0->GREB1")
+ ab.mra(data.mean,matp=matp,pred="E2+siLCoR+siRIP140",pert1="E2+siLCoR",pert2="E2+siRIP140",
+ ab=FALSE)
+ ``` 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ab.mra.R
 \name{ab.mra}
 \alias{ab.mra}
-\title{Inference of a double perturbation outcome from a connectivity network created with MRA.}
+\title{Inference of the effect of a double perturbation upon the connectivity of a network created with MRA.}
 \usage{
 ab.mra(data,matp,pred=NULL,pert1,pert2,inval=c(-1,1),step=0.1,Rp=FALSE,ab=TRUE)
 }
@@ -12,7 +12,7 @@ ab.mra(data,matp,pred=NULL,pert1,pert2,inval=c(-1,1),step=0.1,Rp=FALSE,ab=TRUE)
 \item{matp}{The perturbation matrix. Names of modules (rows) and perturbations (columns) must correspond to names of rows
 and columns in tab.}
 
-\item{pred}{String. Name of the double perturbation to be inferred (if the experimental values for all modules of
+\item{pred}{String. Name of the double perturbation to be inferred (only if the experimental values for all modules of
 such perturbation are given as reference in ```data```). Default is NULL.}
 
 \item{pert1}{String. Name of the first individual peturbation.}
@@ -22,7 +22,7 @@ such perturbation are given as reference in ```data```). Default is NULL.}
 \item{inval}{A two values vector given the lower and the upper limit of the interval of the a and b coefficients
 for the ab.mra calculation (See details).}
 
-\item{step}{Number. Increment of the sequence within the interval for the a and b coefficients.}
+\item{step}{Number. Increment of the sequence of the interval for the a and b coefficients.}
 
 \item{Rp}{Logical. TRUE if ```data``` is the calcuated global response matrix. Default is FALSE}
 
@@ -37,9 +37,9 @@ the reference values are returned. If ```pert``` is not provided then only the i
 will produce a warning message suggesting that the inferred values must be validated by experimental data.
 }
 \description{
-Function that first calculates the connectivity map of a network containing biological
-modules and perturbation as specified in the perturbation matrix of the network. Then, it infers the output
-of combining two perturbations used in the construction of the MRA model.
+This function first calculates the coupling between the elements  of a biological network
+using MRA and then, it infers the output of combining two of the perturbations used for the construction
+of the model.
 }
 \details{
 The ab.MRA inference is based on the hypothesis that it is possible to infer experimental values for

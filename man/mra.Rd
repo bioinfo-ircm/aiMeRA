@@ -21,7 +21,7 @@ A list containing the connectivity map, the local responses matrix, the network 
         and the basal line for all modules.
 }
 \description{
-Calculation of connectivity coefficients between modules in biological networks
+Calculation of connectivity coefficients between modules in a biological network
 using modular response analysis.
 }
 \details{

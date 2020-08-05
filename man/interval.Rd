@@ -4,18 +4,20 @@
 \alias{interval}
 \title{Confidence interval calculation for MRA connectivity coefficients}
 \usage{
-interval(tab,sd.tab,matp,n=10000,nrep=2)
+interval(tab,mean=0,sd.tab,matp,Rp=FALSE,n=10000)
 }
 \arguments{
 \item{tab}{A data table containing the experimental data in the format output by ```data.setup```.}
 
-\item{sd.tab}{A data table containing the standard deviation values.}
+\item{mean}{mean of the normal distribution for creating the noisy matrices.}
+
+\item{sd.tab}{A data table containing the standard deviation values of replicates for creating the noisy matrices.}
 
 \item{matp}{A perturbation rule table, with rows corresponding to the MRA modules and columns to perturbations.}
 
-\item{n}{Number of samples for the bootstrap algorithm.}
+\item{Rp}{Logical. TRUE if ```tab``` is the calcuated global response matrix.}
 
-\item{nrep}{Number of experimental replicas. Default is 2.}
+\item{n}{Number of samples for the bootstrap algorithm.}
 }
 \value{
 A list containing the upper and lower values of the confidence interval of each connectivity coefficient.
@@ -33,6 +35,8 @@ sd.mean=data2sdmean(tec.av)
 rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
 matp=read.rules(rules)
 #The variance of each variable was estimated employing an estimator optimized for a
-#small sample size from Statistical Process Control theory (Wheeler and Chambers, 1992; Harter, 1960).
-interval(sd.mean$mean,sd.ex,matp,nrep=6)
+#small sample size from Statistical Process Control theory
+#(Wheeler and Chambers, 1992; Harter, 1960).
+sd.ex=sd.ex/sqrt(6)
+interval(sd.mean$mean,sd.tab=sd.ex,matp=matp)
 }

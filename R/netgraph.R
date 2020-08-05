@@ -1,4 +1,4 @@
-#'@title Plotting of networks connectivity map
+#'@title Network connectivity plot
 #
 #'@description Plots a graphic representation of a biological network connectivity map calculated by MRA.
 #'
@@ -43,7 +43,7 @@
 #'rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
 #'matp=read.rules(rules)
 #'map=mra(sd.mean$mean,matp)
-#'inter=interval(sd.mean$mean,sd.ex,matp,nrep=6)
+#'inter=interval(sd.mean$mean,sd.tab=sd.ex,matp=matp)
 #'netgraph(map,inter=inter)
 
 netgraph=function(map,layout=igraph::layout_with_kk,pertu=NULL,inter=NULL,cutoff=NULL,main=NULL,digits=2,
