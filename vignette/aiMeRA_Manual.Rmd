@@ -1,6 +1,7 @@
 ---
 title: "aiMeRA User's Guide"
 output:
+  word_document: default
   pdf_document: default
   html_document:
     df_print: paged
@@ -503,14 +504,14 @@ Argument      |Description
 ### Details
 
 
- The ab.MRA inference is based on the hypothesis that it is possible to infer experimental values for
- the combination of two perturbations used for the classical MRA calculation of the connectivity of a network. The hypothesis
+ The ab.MRA inference is based on the hypothesis that it is possible to infer experimental values of
+ combining two perturbations used for the classical MRA calculation network coonectivity. The hypothesis
  is that by including the two local responses of two perturbations into a new system for which the network
- connectivity is known then it is possible to infer the values of a double perturbation for all the biological
+ connectivity is known then it is possible to infer the values of a double perturbation effet upon all biological
  modules in the network.
  
  Two coefficients (a and b) that ponderate the local responses to perturbations (local_matrix) indicate
- whether the effect of the combined perturbations remains equal as their individual effect (a=1 and b=1), or it is attenuated (abs(a)<1 and abs(b)<1)
+ whether the effect of the combined perturbations remains equal as their individual effect (a=1 and b=1), or it is attenuated (abs(a)<1 and  abs(b)<1)
  or amplified (abs(a)>1 and abs(b)>1). The a, b coefficients are coefficients that minimize the euclidian
  distance between the infered values and the reference experimental values of all modules.
  

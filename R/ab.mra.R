@@ -21,10 +21,10 @@
 #'and the values for the a and b coefficients are returned. If ```pert``` is provided and ```ab=FALSE``` then the inferred and
 #'the reference values are returned. If ```pert``` is not provided then only the inferred values are returned. This
 #'will produce a warning message suggesting that the inferred values must be validated by experimental data.
-#'@details The ab.MRA inference is based on the hypothesis that it is possible to infer experimental values for
-#'the combination of two perturbations used for the classical MRA calculation of the connectivity of a network. The hypothesis
+#'@details The ab.MRA inference is based on the hypothesis that it is possible to infer experimental values of
+#'combining two perturbations used for the classical MRA calculation network coonectivity. The hypothesis
 #'is that by including the two local responses of two perturbations into a new system for which the network
-#'connectivity is known then it is possible to infer the values of a double perturbation for all the biological
+#'connectivity is known then it is possible to infer the values of a double perturbation effet upon all biological
 #'modules in the network.
 #'
 #'Two coefficients (a and b) that ponderate the local responses to perturbations (local_matrix) indicate

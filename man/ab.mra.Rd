@@ -42,10 +42,10 @@ using MRA and then, it infers the output of combining two of the perturbations u
 of the model.
 }
 \details{
-The ab.MRA inference is based on the hypothesis that it is possible to infer experimental values for
-the combination of two perturbations used for the classical MRA calculation of the connectivity of a network. The hypothesis
+The ab.MRA inference is based on the hypothesis that it is possible to infer experimental values of
+combining two perturbations used for the classical MRA calculation network coonectivity. The hypothesis
 is that by including the two local responses of two perturbations into a new system for which the network
-connectivity is known then it is possible to infer the values of a double perturbation for all the biological
+connectivity is known then it is possible to infer the values of a double perturbation effet upon all biological
 modules in the network.
 
 Two coefficients (a and b) that ponderate the local responses to perturbations (local_matrix) indicate
