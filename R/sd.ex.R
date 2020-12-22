@@ -1,9 +1,8 @@
-#' qPCR data table 1_A from perturbations to the ERs,RARs, LCoR and RIP140 network
+#' standard deviation table from perturbations to the ERs,RARs, LCoR and RIP140 network
 #'
-#'@format A data frame with 8 rows (biological modules) and  16 variables (perturbations):
+#'@format A data frame with 8 rows (biological modules) and  15 variables (perturbations):
 #' \describe{
 #'    \item{Et}{Ethanol}
-#'    \item{E2}{Estradiol}
 #'    \item{RA}{Retinoic Acid}
 #'    \item{E2+RA}{Estradiol and retinoic acid}
 #'    \item{siLCoR}{LCoR gene silencing RNA}

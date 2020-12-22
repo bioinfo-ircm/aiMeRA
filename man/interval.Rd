@@ -27,16 +27,21 @@ A function that estimates confidence intervals of MRA connectivity coefficients
 based on replicates. It uses a bootstrap algorithm.
 }
 \examples{
-data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
-#We first average the technical replicates of each biological replicate
+#Confidence intervals are obtained from the variability within the global
+#reponse matrices (R). The basal condition is estradiol (E2)
+#'#We first average the technical replicates of each biological replicate
 #and then only keep the (averaged) biological replicates for the calculation
+data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
 tec.av=list(data2sdmean(data[1:2])$mean,data2sdmean(data[3:4])$mean,data2sdmean(data[5:6])$mean)
-sd.mean=data2sdmean(tec.av)
-rules=c("Et->Luciferase","E2+siRIP140->RIP140","E2+siLCoR->LCoR","E2->0")
+data.mean=data2sdmean(tec.av)$mean
+lb="E2"
+data.rp=2*(data.mean[,colnames(data.mean)!=lb]-data.mean[,lb])/(data.mean[,colnames(data.mean)!=lb]+data.mean[,lb])
+rules=c("E2+siLCoR->LCoR","E2+siRIP140->RIP140","Et->Luciferase","E2->0")
 matp=read.rules(rules)
 #The variance of each variable was estimated employing an estimator optimized for a
 #small sample size from Statistical Process Control theory
-#(Wheeler and Chambers, 1992; Harter, 1960).
-sd.ex=sd.ex/sqrt(6)
-interval(sd.mean$mean,sd.tab=sd.ex,matp=matp)
+#(Wheeler and Chambers, 1992; Harter, 1960). The standard deviation was computed for
+#the global response matrices and stored into the sd.ex table which is included
+#in the package)
+interval(data.rp,sd.tab=sd.ex,matp=matp,Rp=TRUE)
 }
