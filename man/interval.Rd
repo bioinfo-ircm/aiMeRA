@@ -34,8 +34,7 @@ based on replicates. It uses a bootstrap algorithm.
 data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
 tec.av=list(data2sdmean(data[1:2])$mean,data2sdmean(data[3:4])$mean,data2sdmean(data[5:6])$mean)
 data.mean=data2sdmean(tec.av)$mean
-lb="E2"
-data.rp=2*(data.mean[,colnames(data.mean)!=lb]-data.mean[,lb])/(data.mean[,colnames(data.mean)!=lb]+data.mean[,lb])
+data.rp=global.matrix(data.mean,"E2")
 rules=c("E2+siLCoR->LCoR","E2+siRIP140->RIP140","Et->Luciferase","E2->0")
 matp=read.rules(rules)
 #The variance of each variable was estimated employing an estimator optimized for a

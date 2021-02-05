@@ -19,8 +19,7 @@
 #'data=data.setup(list(estr1_A,estr1_B,estr2_A,estr2_B,estr3_A,estr3_B))
 #'tec.av=list(data2sdmean(data[1:2])$mean,data2sdmean(data[3:4])$mean,data2sdmean(data[5:6])$mean)
 #'data.mean=data2sdmean(tec.av)$mean
-#'lb="E2"
-#'data.rp=2*(data.mean[,colnames(data.mean)!=lb]-data.mean[,lb])/(data.mean[,colnames(data.mean)!=lb]+data.mean[,lb])
+#'data.rp=global.matrix(data.mean,"E2")
 #'rules=c("E2+siLCoR->LCoR","E2+siRIP140->RIP140","Et->Luciferase","E2->0")
 #'matp=read.rules(rules)
 #'#The variance of each variable was estimated employing an estimator optimized for a
@@ -40,12 +39,12 @@ interval=function(tab,mean=0,sd.tab,matp,Rp=FALSE,n=10000)
   lb = colnames(matp)[colSums(matp) == 0]
   pt=colnames(matp)[colnames(matp)!=lb]
   tab=switch(2-Rp,tab[genes,pt],tab[genes,c(pt,lb)])
+  sd.tab=switch(2-Rp,sd.tab[genes,pt],sd.tab[genes,c(pt,lb)])
   rlist=list()
   rplist=list()
   for (i in 1:n)
   {
-    pertus=colnames(matp)
-    bruit=rnorm(ncol(tab)* nrow(tab),mean,as.vector(sd.tab))
+    bruit=matrix(sapply(as.vector(sd.tab),function(x)rnorm(1,mean,x)),ncol=ncol(sd.tab))
     xbruit=tab+bruit
     res = mra(xbruit, matp, check = FALSE, Rp=ifelse(Rp,TRUE,FALSE))
     diag(res$link_matrix)=NA

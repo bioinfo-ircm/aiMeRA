@@ -3,6 +3,7 @@
 export(ab.mra)
 export(data.setup)
 export(data2sdmean)
+export(global.matrix)
 export(interval)
 export(mra)
 export(netgraph)
