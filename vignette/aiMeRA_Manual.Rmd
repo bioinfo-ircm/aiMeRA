@@ -139,7 +139,7 @@ netgraph(map)
 Estimation of confidence intervals for each connectivity coefficient is obtained using the ```interval()``` function.
 
 ```r
-inter=interval(data$mean,data$sd,matp)
+inter=interval(tab=data$mean,sd.tab=data$sd,matp=matp)
 ```
 The output of this function allows to add an asterik on each coefficient for which zero is not included within the confidence interval.
 
