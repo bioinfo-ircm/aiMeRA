@@ -1,8 +1,8 @@
 ---
 title: "aiMeRA User's Guide"
 output:
-  word_document: default
   pdf_document: default
+  word_document: default
   html_document:
     df_print: paged
 vignette: |
@@ -126,7 +126,7 @@ then n data tables should be provided to ```data.setup``` and ```data2sdmean``` 
 Finally we compute the connectivity map using the ```mra()``` function.
 
 ```r
-res=mra(data$mean,matp)
+map=mra(data$mean,matp)
 ```
 ### **Plot of the connectivity map**
 
@@ -139,7 +139,7 @@ netgraph(map)
 Estimation of confidence intervals for each connectivity coefficient is obtained using the ```interval()``` function.
 
 ```r
-inter=interval(data$mean,data$sd,matp,nrep=6)
+inter=interval(data$mean,data$sd,matp)
 ```
 The output of this function allows to add an asterik on each coefficient for which zero is not included within the confidence interval.
 
