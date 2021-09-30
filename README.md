@@ -4,5 +4,5 @@ A generic Modular Response Analysis R package
 From the R console type:
 devtools::install_github(repo = "https://github.com/bioinfo-ircm/aiMeRA/")
 # Manual
-A PDF manual version is available in the vignette folder
+A manual is available in PDF in the vignette folder
 # Citation
